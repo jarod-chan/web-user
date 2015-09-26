@@ -20,11 +20,7 @@
     </properties>
 
     <dependencies>
-    	
-  
-
         <!-- Spring Boot -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -41,6 +37,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         
+        <!-- 指定ecj的版本  -->
          <dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
@@ -63,16 +60,7 @@
 			</exclusions>
 		</dependency>
 
-        <!-- Hibernate validator -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-
-
-
         <!-- Guava -->
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -80,17 +68,29 @@
         </dependency>
 
         <!-- Java EE -->
-
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
 
+		 <!-- jstl -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.2</version>
+			<scope>provided</scope>
+		</dependency>
 
     </dependencies>
 

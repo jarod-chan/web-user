@@ -3,17 +3,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-<body>
-<h1><spring:message code="user.list"/></h1>
-<ul>
-    <%--@elvariable id="users" type="java.util.List"--%>
-    <c:forEach items="${users}" var="user">
-        <li>
-            <c:out value="${user.getId()}"/>
-        </li>
-    </c:forEach>
-</ul>
+<head>
+	<%@ include file="/common/setting.jsp" %>
+	<%@ include file="/common/meta.jsp" %>
+	<%@ include file="/common/include.jsp" %>	
+</head>
 
-<a href="<spring:url value="/user_create.html" />"><spring:message code="user.create"/></a>
+<body>
+<h1>用户列表</h1>
+
+<table border="1">
+<thead>
+	<tr>
+		<th>用户名</th><th>邮箱</th><th>电话</th><th>姓名</th><th>状态</th><th>操作</th>
+	</tr>
+</thead>
+<tbody>
+
+	<c:forEach var="user" items="${users}">
+	<tr>
+		<td>${user.uname}</td>
+		<td>${user.uemail}</td>
+		<td>${user.uphone}</td>
+		<td>${user.realname}</td>
+		<td>
+		<c:if test="${user.state=='on'}">启用</c:if>
+		<c:if test="${user.state=='off'}">禁用</c:if>
+		</td>
+		<td>
+			<input data-id="${user.fyid}" class="btn_edit" type="button" value="修改">
+		</td>
+	</tr>
+	</c:forEach>
+</tbody>
+</table>
+<a href="<spring:url value="/user_create" />">新增</a>
 </body>
 </html>
