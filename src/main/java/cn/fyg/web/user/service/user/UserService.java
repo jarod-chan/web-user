@@ -5,15 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -23,44 +20,60 @@ public class UserService {
 
 	public List<UserDto> list() {
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<List<UserDto>> response = restTemplate.exchange(baseURL, HttpMethod.GET,
-				null, new ParameterizedTypeReference<List<UserDto>>() {
+		ResponseEntity<Retv<List<UserDto>>> response = restTemplate.exchange(baseURL, HttpMethod.GET,
+				null, new ParameterizedTypeReference<Retv<List<UserDto>>>() {
 				});
-		return response.getBody();
+		return response.getBody().getData();
 	}
 	
 	public Retv<Long> create(Map<String,Object> map){
 		RestTemplate restTemplate = new RestTemplate();
+		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String,Object>>(map);
 		ResponseEntity<Retv<Long>> response = restTemplate.exchange(baseURL+"/register", HttpMethod.POST,
-				null, new ParameterizedTypeReference<Retv<Long>>() {
-				},map);
+				entity, new ParameterizedTypeReference<Retv<Long>>() {
+				});
 		return  response.getBody();
 	}
 	
-	public static void main1(String[] args) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("uname", "uname123");
+	public Retv<UserDto> find(Long id){
 		RestTemplate restTemplate = new RestTemplate();
-		try{
-			ResponseEntity<String> postForEntity = restTemplate.postForEntity( baseURL+"/register", map, String.class);
-		}catch(HttpClientErrorException e){
-			System.out.println(e);
-			System.out.println(e.getResponseBodyAsString());
-		}
+		Retv<UserDto> retv = restTemplate.exchange(baseURL+"/"+id, HttpMethod.GET,
+				null, new ParameterizedTypeReference<Retv<UserDto>>() {
+				}).getBody();
+		return retv;
 	}
 	
-	public static void main(String[] args) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("uname", "uname123");
+	
+	public Retv<UserDto> update(Long id,Map<String,Object> map){
 		RestTemplate restTemplate = new RestTemplate();
-		try{
-			ResponseEntity<Retv<Long>> response = restTemplate.exchange(baseURL+"/register", HttpMethod.POST,
-					null, new ParameterizedTypeReference<Retv<Long>>() {
-					},map);
-		}catch(HttpClientErrorException e){
-			System.out.println(e);
-			System.out.println(e.getResponseBodyAsString());
-		}
+		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String,Object>>(map);
+		ResponseEntity<Retv<UserDto>> response = restTemplate.exchange(baseURL+"/"+id, HttpMethod.POST,
+				entity, new ParameterizedTypeReference<Retv<UserDto>>() {
+				});
+		return  response.getBody();
 	}
-
+	
+	public Retv<Void> changeState(Long id,String state){
+		RestTemplate restTemplate = new RestTemplate();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("state", state);
+		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String,Object>>(map);
+		ResponseEntity<Retv<Void>> response = restTemplate.exchange(baseURL+"/"+id+"/changestate", HttpMethod.POST,
+				entity, new ParameterizedTypeReference<Retv<Void>>() {
+				});
+		return  response.getBody();
+	}
+	
+	public Retv<Void> resetPassword(Long id,String password){
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+		parts.add("password", password);
+		HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(parts);
+		ResponseEntity<Retv<Void>> response = restTemplate.exchange(baseURL+"/"+id+"/password", HttpMethod.POST,
+				entity, new ParameterizedTypeReference<Retv<Void>>() {
+				});
+		return response.getBody();
+	}
+	
+	
 }

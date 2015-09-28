@@ -7,6 +7,32 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
+	<script type="text/javascript">
+	$(function(){
+		$(".btn_edit").click(function(){
+			var id=$(this).data("id");
+			window.open('${ctx}/user_edit?id='+id,'_self');
+		})
+		$(".btn_changestate").click(function(){
+			var id=$(this).data("id");
+			var state=$(this).data("state");
+			if(state=="on"){
+				state="off";
+			}else{
+				state="on";
+			}
+			
+			$('<form/>',{action:'${ctx}/user_changestate?id='+id,method:'post'})
+    		.append($('<input/>',{type:'hidden',name:'state',value:state}))
+			.appendTo($("body"))
+			.submit();
+		})
+		$(".btn_password").click(function(){
+			var id=$(this).data("id");
+			window.open('${ctx}/user_password?id='+id,'_self');
+		})
+	})
+	</script>
 </head>
 
 <body>
@@ -31,12 +57,15 @@
 		<c:if test="${user.state=='off'}">禁用</c:if>
 		</td>
 		<td>
-			<input data-id="${user.fyid}" class="btn_edit" type="button" value="修改">
+			<input data-id="${user.fyid}" data-state="${user.state}" class="btn_changestate" type="button" value="启用/禁用">
+			<input data-id="${user.fyid}" class="btn_edit" type="button" value="修改用户信息">
+			<input data-id="${user.fyid}" class="btn_password" type="button" value="重置密码">
 		</td>
 	</tr>
 	</c:forEach>
 </tbody>
 </table>
 <a href="<spring:url value="/user_create" />">新增</a>
+<%@ include file="/common/message.jsp" %>	
 </body>
 </html>
