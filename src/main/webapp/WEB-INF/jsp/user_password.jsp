@@ -14,7 +14,7 @@
 用户名：
 ${user.uname}<br/>
 密码重置：
-<input type="password" name="password"><br/>
+<input type="text" name="password" value=""><br/>
 
 <input type="submit" value="保存"  id="btn_save">
 </form>

@@ -37,7 +37,7 @@
 
 <body>
 <h1>用户列表</h1>
-
+<%@ include file="/common/message.jsp" %>	
 <table border="1">
 <thead>
 	<tr>
@@ -66,6 +66,6 @@
 </tbody>
 </table>
 <a href="<spring:url value="/user_create" />">新增</a>
-<%@ include file="/common/message.jsp" %>	
+
 </body>
 </html>
