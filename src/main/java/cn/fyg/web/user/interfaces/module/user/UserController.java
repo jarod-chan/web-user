@@ -1,4 +1,4 @@
-package cn.fyg.web.user.interfaces;
+package cn.fyg.web.user.interfaces.module.user;
 
 import java.util.Map;
 
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.web.user.interfaces.shared.AppConstant;
 import cn.fyg.web.user.service.user.Retv;
 import cn.fyg.web.user.service.user.UserDto;
 import cn.fyg.web.user.service.user.UserService;

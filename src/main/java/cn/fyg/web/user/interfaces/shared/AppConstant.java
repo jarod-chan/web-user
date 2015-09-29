@@ -1,4 +1,4 @@
-package cn.fyg.web.user.interfaces;
+package cn.fyg.web.user.interfaces.shared;
 
 public interface AppConstant {
 	
